@@ -10,6 +10,23 @@ const App = () => {
 
   const search = (term) => {
     console.log(`${term} was searched`);
+    $.ajax({
+      url: "/repos",
+      method: "POST",
+      data: { username: term },
+      dataType: "text",
+      success: () => {
+        $.ajax({
+          url: "/repos",
+          method: "GET",
+          success: (response) => {
+            console.log('this is the response data', response)
+            setRepos([response.data])},
+          error: () => console.log('Whoops on the GET')
+        })
+      },
+      error: () => console.log('Whoops on the POST')
+    })
   }
 
   return (
